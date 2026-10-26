@@ -1,48 +1,45 @@
 # Labtainers Modern — istruzioni per gli studenti
 
-Queste istruzioni si applicano alla **VM ufficiale Labtainers** fornita per il corso di Cyber Security e Digital Forensics.
+Questo repository distribuisce laboratori modernizzati per il corso di **Cyber Security e Digital Forensics**, utilizzabili sulla **VM ufficiale Labtainers** fornita agli studenti.
 
-Non occorre installare Docker separatamente, compilare immagini o autenticarsi su GitHub Container Registry (GHCR).
+I laboratori sono basati su Ubuntu 24.04 e includono strumenti aggiornati per l'analisi delle vulnerabilità e la sicurezza dei sistemi.
 
-I laboratori utilizzano immagini Docker pubbliche, scaricate automaticamente da Labtainers al primo avvio.
+Non è necessario installare Docker separatamente, compilare immagini Docker o disporre di un account GitHub.
 
 ## Laboratori disponibili
 
-### 1. bufoverflow-modern
+| Laboratorio | Argomento | Release IModule |
+|---|---|---|
+| `bufoverflow-modern` | Buffer overflow, analisi della memoria e tecniche di exploit | `v1.0.1` |
+| `buf64-modern` | Buffer overflow su architettura x86-64 ed esecuzione di shellcode | `buf64-modern-v1.0.1` |
 
-Esercitazione sul buffer overflow e sulle tecniche di sfruttamento delle vulnerabilità della memoria.
+### bufoverflow-modern
 
-**Ambiente:**
-- Ubuntu 24.04.5 LTS
-- GCC 13, GDB 15.1
-- pwndbg e Pwntools
+Laboratorio dedicato allo studio delle vulnerabilità di buffer overflow e delle tecniche di analisi e sfruttamento della memoria.
 
-**Release IModule:** `v1.0.1`
+**Ambiente:** Ubuntu 24.04.5 LTS, GCC 13, GDB 15.1, pwndbg e Pwntools.
 
-**Immagine Docker:**
+**Immagine Docker pubblica:**
+
 `ghcr.io/cybersecurity-teaching-labs/bufoverflow-modern.bufoverflow.student:latest`
 
-### 2. buf64-modern
+### buf64-modern
 
-Esercitazione sullo sfruttamento di un buffer overflow su architettura x86-64, finalizzata all'esecuzione di shellcode e all'ottenimento di una shell non privilegiata.
+Laboratorio dedicato allo sfruttamento di buffer overflow su architettura x86-64, con l'obiettivo di eseguire shellcode e ottenere una shell non privilegiata.
 
-**Ambiente:**
-- Ubuntu 24.04 LTS
-- GCC 13, GDB 15.1
-- pwndbg e Pwntools
-- NASM
-- Dimensione del buffer parametrizzata individualmente
+**Ambiente:** Ubuntu 24.04 LTS, GCC 13, GDB 15.1, pwndbg, Pwntools e NASM.
 
-**Release prevista IModule:** `buf64-modern-v1.0.1`
+La dimensione del buffer vulnerabile è parametrizzata individualmente da Labtainers.
 
-**Immagine Docker:**
-`ghcr.io/cybersecurity-teaching-labs/buf64-modern.buf64.student:1.0.1`
+**Immagine Docker pubblica:**
 
-## Installazione dei laboratori
+`ghcr.io/cybersecurity-teaching-labs/buf64-modern.buf64.student:latest`
 
-L'installazione di ciascun laboratorio deve essere effettuata **una sola volta** sulla VM ufficiale Labtainers.
+## 1. Installazione dei laboratori
 
-Aprire un terminale e posizionarsi nella directory:
+L'installazione deve essere effettuata una sola volta per ciascun laboratorio.
+
+Aprire un terminale nella VM ufficiale Labtainers e posizionarsi nella directory:
 
 ```bash
 cd ~/labtainer/trunk/scripts/labtainer-student
@@ -50,25 +47,45 @@ cd ~/labtainer/trunk/scripts/labtainer-student
 
 ### Installazione di bufoverflow-modern
 
+**1. Installare l'IModule:**
+
 ```bash
 ./bin/imodule https://github.com/cybersecurity-teaching-labs/labtainers-distribution/releases/download/v1.0.1/bufoverflow-modern-imodule-v1.0.1.tar
 ```
 
+**2. Scaricare l'immagine Docker:**
+
+```bash
+docker pull ghcr.io/cybersecurity-teaching-labs/bufoverflow-modern.bufoverflow.student:latest
+```
+
 ### Installazione di buf64-modern
 
-*Da utilizzare dopo la pubblicazione dell'IModule v1.0.1.*
+**1. Installare l'IModule:**
 
 ```bash
 ./bin/imodule https://github.com/cybersecurity-teaching-labs/labtainers-distribution/releases/download/buf64-modern-v1.0.1/buf64-modern-imodule-v1.0.1.tar
 ```
 
-L'installazione scarica le configurazioni e la documentazione del laboratorio.
+**2. Scaricare l'immagine Docker:**
 
-Al primo avvio Labtainers scarica automaticamente l'immagine Docker pubblica da GHCR. **È necessaria una connessione Internet.**
+```bash
+docker pull ghcr.io/cybersecurity-teaching-labs/buf64-modern.buf64.student:latest
+```
 
-Non è richiesta alcuna compilazione locale delle immagini Docker.
+### Note sull'installazione
 
-## Avvio dei laboratori
+Le immagini Docker sono pubbliche e non richiedono autenticazione a GitHub Container Registry.
+
+Il download può richiedere alcuni minuti, a seconda della velocità della connessione e delle immagini già presenti sulla VM.
+
+**Il comando `docker pull` è necessario per garantire la compatibilità con la versione di Labtainers fornita per il corso**, che potrebbe non individuare automaticamente le immagini ospitate su GHCR.
+
+Dopo il primo download, non è necessario ripetere l'operazione per ogni avvio del laboratorio.
+
+Non utilizzare `docker build`, `docker login` o altri comandi di configurazione Docker, salvo indicazione esplicita del docente.
+
+## 2. Avvio dei laboratori
 
 Aprire un terminale nella VM ufficiale:
 
@@ -76,28 +93,46 @@ Aprire un terminale nella VM ufficiale:
 cd ~/labtainer/trunk/scripts/labtainer-student
 ```
 
-Per avviare **bufoverflow-modern**:
+### Avvio di bufoverflow-modern
 
 ```bash
 ./bin/labtainer bufoverflow-modern
 ```
 
-Per avviare **buf64-modern**:
+Si aprirà il terminale del container `ubuntu@bufoverflow`.
+
+### Avvio di buf64-modern
 
 ```bash
 ./bin/labtainer buf64-modern
 ```
 
-Seguire le istruzioni dell'esercitazione nella finestra del relativo container.
+Si aprirà il terminale del container `ubuntu@buf64`.
 
-In particolare:
+Seguire le istruzioni disponibili nel manuale dell'esercitazione.
 
-- `bufoverflow-modern` utilizza il container `ubuntu@bufoverflow`.
-- `buf64-modern` utilizza il container `ubuntu@buf64`.
+Tutte le attività devono essere svolte esclusivamente nell'ambiente didattico predisposto.
 
-I laboratori devono essere svolti esclusivamente nell'ambiente didattico predisposto.
+## 3. Svolgimento delle esercitazioni
 
-## Chiusura e salvataggio della consegna
+Ogni laboratorio contiene programmi e strumenti necessari allo svolgimento dell'attività.
+
+Per consultare la documentazione, utilizzare il manuale reso disponibile da Labtainers all'avvio.
+
+### Strumenti disponibili
+
+A seconda del laboratorio, sono disponibili:
+
+- GCC per la compilazione dei programmi C.
+- GDB e pwndbg per l'analisi dinamica e il debugging.
+- Pwntools per lo sviluppo e l'analisi di exploit.
+- NASM per l'assemblaggio di codice x86-64.
+
+Le configurazioni dei laboratori sono predisposte per consentire lo studio controllato delle vulnerabilità.
+
+Non modificare le impostazioni globali di sicurezza della VM, del kernel o di Docker.
+
+## 4. Chiusura del laboratorio e salvataggio della consegna
 
 Al termine dell'esercitazione, uscire dalla shell del laboratorio, se necessario:
 
@@ -105,109 +140,142 @@ Al termine dell'esercitazione, uscire dalla shell del laboratorio, se necessario
 exit
 ```
 
-Nel terminale della VM ufficiale eseguire:
+Tornare al terminale della VM ufficiale e posizionarsi nella directory:
 
 ```bash
 cd ~/labtainer/trunk/scripts/labtainer-student
+```
+
+Eseguire:
+
+```bash
 ./bin/stoplab
 ```
 
 Labtainers arresta il laboratorio e salva automaticamente i risultati.
 
-Il percorso viene comunicato al termine dell'operazione.
+Il percorso dei risultati viene visualizzato al termine dell'operazione.
 
-Per **bufoverflow-modern**, normalmente:
+### Risultati di bufoverflow-modern
+
+Directory:
 
 ```text
 /home/student/labtainer_xfer/bufoverflow-modern
 ```
 
-Per **buf64-modern**, normalmente:
-
-```text
-/home/student/labtainer_xfer/buf64-modern
-```
-
-Verificare la presenza del file di consegna.
-
-Per `bufoverflow-modern`:
+Verificare il file di consegna:
 
 ```bash
 ls -lh ~/labtainer_xfer/bufoverflow-modern/*.lab
 ```
 
-Per `buf64-modern`:
+### Risultati di buf64-modern
+
+Directory:
+
+```text
+/home/student/labtainer_xfer/buf64-modern
+```
+
+Verificare il file di consegna:
 
 ```bash
 ls -lh ~/labtainer_xfer/buf64-modern/*.lab
 ```
 
-**Consegnare il file `.lab`** attraverso la modalità indicata dal docente.
+### Consegna
 
-Non consegnare gli archivi ZIP interni e non rinominare o modificare il contenuto del file `.lab`.
+**Consegnare il file con estensione `.lab`**, seguendo le istruzioni comunicate dal docente.
 
-## Problemi comuni
+Non estrarre, rinominare o modificare il contenuto del file `.lab`.
 
-### Impossibile scaricare l'immagine Docker
+Non consegnare gli archivi ZIP contenuti al suo interno.
+
+## 5. Problemi comuni
+
+### Il comando `labtainer` non trova l'immagine Docker
 
 Messaggi possibili:
 
 ```text
 Unable to reach DockerHub
 Could not find image info
-unauthorized
 ```
 
-Verificare la connessione Internet della VM.
+Verificare di avere eseguito il comando `docker pull` relativo al laboratorio.
 
-I laboratori utilizzano GHCR e non richiedono credenziali GitHub. Se l'errore persiste, contattare il docente riportando il messaggio completo.
+Per controllare le immagini disponibili:
 
-### Il laboratorio non viene riconosciuto
-
-Verificare che il relativo IModule sia stato installato correttamente e che il nome del laboratorio sia scritto esattamente come indicato.
-
-Se necessario, reinstallare l'IModule utilizzando l'URL della release comunicata dal docente.
-
-### Errore relativo a instr_config/results.config
-
-Se `stoplab` segnala l'assenza di `instr_config/results.config`, l'IModule potrebbe essere incompleto o non aggiornato.
-
-Reinstallare la versione prevista per il laboratorio oppure contattare il docente.
-
-### Non viene generato un file .lab
-
-Non eliminare manualmente il container né modificare gli archivi di Labtainers.
-
-Conservare il messaggio d'errore completo e contattare il docente.
-
-### Comportamento anomalo del terminale
-
-I terminali Labtainers possono gestire in modo particolare alcuni comandi multilinea e le sessioni interattive.
-
-Quando possibile, impartire i comandi singolarmente, seguendo le istruzioni del laboratorio.
-
-### Chiusura del laboratorio
-
-Eseguire `./bin/stoplab` dalla directory:
-
-```text
-~/labtainer/trunk/scripts/labtainer-student
+```bash
+docker image ls
 ```
 
-Non eseguirlo da directory arbitrarie.
+Se l'immagine manca, ripetere il download indicato nella sezione di installazione.
 
-## Aggiornamenti e versioni
+### Docker restituisce `unauthorized` oppure `denied`
 
-Ogni laboratorio viene distribuito attraverso un IModule e un'immagine Docker associata.
+Verificare la connessione Internet e che il nome dell'immagine sia stato copiato correttamente.
 
-Utilizzare **esclusivamente le versioni e gli URL comunicati dal docente**.
+Le immagini distribuite per il corso sono pubbliche: non è necessario eseguire `docker login`.
 
-Non aggiornare autonomamente i container, gli strumenti di sviluppo o le dipendenze utilizzate durante l'esercitazione.
+Se il problema persiste, conservare il messaggio completo e contattare il docente.
 
-La presenza del tag Docker `latest` non garantisce che l'immagine rimanga invariata nel tempo.
+### Il laboratorio non è riconosciuto
 
-## Note sull'ambiente didattico
+Verificare di avere installato l'IModule corretto.
 
-Le esercitazioni prevedono programmi intenzionalmente vulnerabili e configurazioni di sicurezza predisposte per lo studio delle vulnerabilità.
+Per visualizzare gli IModule registrati:
 
-Le tecniche illustrate devono essere utilizzate soltanto nei container e negli ambienti autorizzati per il corso.
+```bash
+cd ~/labtainer/trunk/scripts/labtainer-student
+./bin/imodule -l
+```
+
+Se necessario, reinstallare l'IModule utilizzando l'URL indicato nella sezione di installazione.
+
+### `stoplab` segnala l'assenza di `instr_config/results.config`
+
+L'IModule potrebbe essere incompleto o non aggiornato.
+
+Reinstallare la versione indicata per il laboratorio e ripetere l'operazione.
+
+### Non viene generato il file `.lab`
+
+Verificare l'output di `stoplab` e la directory `~/labtainer_xfer/`.
+
+Non eliminare manualmente i container e non modificare i risultati.
+
+Conservare l'errore completo e contattare il docente.
+
+### Problemi con GDB o pwndbg
+
+Utilizzare gli strumenti già installati nel container.
+
+Non reinstallare o aggiornare autonomamente pwndbg, GDB o le dipendenze Python.
+
+Se GDB non si avvia correttamente, conservare il messaggio d'errore e segnalarlo al docente.
+
+### Problemi con comandi multilinea
+
+Il terminale Labtainers può interferire con particolari costruzioni della shell, inclusi alcuni here-document e comandi incollati su più righe.
+
+Se un comando non viene interpretato correttamente, riprovare impartendo le istruzioni singolarmente.
+
+## 6. Aggiornamenti
+
+Utilizzare esclusivamente gli URL e le versioni comunicati dal docente.
+
+Gli IModule sono distribuiti tramite release GitHub; le immagini Docker sono pubblicate su GitHub Container Registry.
+
+Il tag Docker `latest` identifica la versione disponibile per l'utilizzo corrente, ma può cambiare nel tempo.
+
+Non aggiornare autonomamente i laboratori durante lo svolgimento delle esercitazioni, salvo indicazione del docente.
+
+## 7. Utilizzo autorizzato
+
+I laboratori contengono programmi intenzionalmente vulnerabili e configurazioni appositamente predisposte per finalità didattiche.
+
+Le tecniche di analisi e sfruttamento delle vulnerabilità devono essere utilizzate esclusivamente negli ambienti autorizzati del corso.
+
+Non applicare queste tecniche a sistemi o servizi esterni senza esplicita autorizzazione.
